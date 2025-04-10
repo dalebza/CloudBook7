@@ -1,0 +1,352 @@
+<html>
+
+
+<script src="https://unpkg.com/convertapi-js/lib/convertapi.js"></script>
+<script src="../index.js"></script>
+
+<body>
+
+<button>Render Html</button>
+<input id="uploadInput"  type="file" multiple/>
+<div id="container">
+</div>
+<div id="main_container"  style="border: 1px solid black; width: 1000px;height: 440;">
+
+</div>
+</body>
+</html>
+<script>
+//init
+
+
+let convertApi = ConvertApi.auth({secret: 'secret_KxKEDA1zS4Fv34j2'});
+console.log(convertApi);
+let params = convertApi.createParams()
+
+
+
+upload = document.getElementById("uploadInput");
+upload.addEventListener("change",()=>{
+params.add('File', uploadInput.files[0]);
+params.add('ImageHeight',500);
+params.add('ImageWidth',500);
+N= 0;
+function dataStream(){
+ return Promise.resolve(convertApi.convert('pdf', 'jpg', params));
+}
+
+dataStream().then(
+
+	function(result){
+
+		let url = result.files[0].Url;
+		
+		    console.log("This is a "+ result.files.length+"page document");
+			console.log(url);
+			console.log(result.files[1].Url);
+            n= result.files.length;
+			z = n;
+			N= n;
+			for(i =0; i<n; i++){
+			   img = document.createElement("img");
+			   img = document.createElement("img");
+			   img.src = result.files[i].Url;
+			   img.style.display = "none";
+			   div = document.getElementById('container');
+			   div.appendChild(img);
+			}
+			
+				const  flag_arr = [false,false,false,false];
+for(i = 0; i<n; i++){
+	flag_arr[i]=false;
+}             console.log(flag_arr[0]);
+
+//z = 2;
+			for(q = 1;q<n; q++){
+			//console.log(flag_arr[i]);
+			   div = document.createElement('div');
+			   div.id="container"+q;
+			   div.flag = false;
+			   div.style.perspective = "1000px";
+			   div.style.position="sticky";
+			   div.style.display = "block";
+			   div.style.marginLeft="50px";
+			   div.style.zIndex = n-q;
+			   div.style.transform ="rotateY(0deg) translateX(0px)";
+			   div.onclick = function flipPage(e){ 
+			   console.log("flips page");
+			   console.log(e.target.id);
+			   console.log(this);
+			  console.log(this.flag);
+			  console.log(n-q+" n="+n+" i="+q);
+			// console.log(i);
+				 str = this.id;
+				 q = parseInt(str.charAt(str.length-1));
+				// console.log("q= "+q);
+				if(this.flag ==false){
+				
+
+			
+
+						this.animate([{transform: "rotateY(0deg) translateX(0px)"},{transform: "rotateY(-166deg) translateX(0px)"}],{duration:2000,fill:"forwards"});
+						this.flag=true;
+						
+						var timer = setTimeout(popUp2(this),50000);
+						
+						function popUp2(obj){
+						
+						  console.log('popUp2');
+						  			console.log(new Date().getMilliseconds());			
+						
+				
+							  // this.style.zIndex=2*-q;
+							//for(i = 1; i<q; i++){
+							  
+							  console.log(obj.id);
+							  
+							  ct = document.getElementById("container"+q);
+							  y = parseInt(div.id.charAt(div.id.length-1));
+
+							  main = document.getElementById("main_container");
+							  n = main.children.length;
+							//  obj.children[0].style.zIndex =  obj.children[0].style.zIndex*-1;
+							//  obj.children[1].style.zIndex =  obj.children[1].style.zIndex*-1;
+							 
+							 setTimeout(()=>{
+							  obj.style.zIndex =  n-y;
+							  obj.children[1].style.zIndex = n+z;
+							   slide2 = obj.children[1];
+								//slide1 = obj.children[0];
+								// slide2.style.position ="sticky";
+							 // slide2.style.position ="sticky";
+							    slide2.style.transform="scaleX(-1) translateX(-475px)";
+							  
+							  
+							  },1000);
+							//  obj.style.zIndex = n + z;  
+							  console.log(obj.children[1]);
+							   slide1 = obj.children[0];
+							
+							  console.log(obj);
+							  console.log(slide1);
+							  console.log(slide2);
+							  
+								z = z +1;				
+						//	}
+							
+							    
+
+					  }
+					//clearTimeout(timer);	
+                       
+						
+					   
+
+
+						//console.log(2*q);
+					}else if(this.flag==true){
+					
+											//this.style.zIndex=0;
+							  n = main.children.length;
+
+						this.animate([{transform: "rotateY(166deg)"},{transform: "rotateY(0deg)"}],{duration:2000,fill:"forwards"});
+						this.flag = false;
+						var timer1 = setTimeout(popUp(this),1200);
+						y = parseInt(div.id.charAt(div.id.length-1));
+
+						function popUp(obj){
+						  console.log('popUp');
+						  						
+						
+				             //for(i = 0; i<q; i++){
+							  ct = document.getElementById("container"+q);
+							  
+							  main = document.getElementById("main_container");
+							  n = main.children.length;
+							
+							setTimeout(()=>{
+							
+							console.log(obj.id);
+							str = obj.id;
+							if(str.length%2==0){
+							    console.log("even " +obj.id);
+								console.log(parseInt(str.charAt(str.length-1)));
+							obj.style.zIndex = n-q; 
+							//  console.log(ct);
+							q = parseInt(str.charAt(str.length-1));
+							obj.children[0].style.zIndex = n-q;
+							obj.children[1].style.zIndex =  -1*(obj.children[1].style.zIndex);
+
+							
+							}else{
+							
+							    console.log("odd "+ obj.id);
+								str = obj.id;
+							    q = parseInt(str.substring(str.length-2,str.length));
+								console.log(q);
+								obj.style.zIndex = n-q; 
+							//  console.log(ct);
+								obj.children[0].style.zIndex = n-q;
+							    obj.children[1].style.zIndex = -1*(obj.children[1].style.zIndex);
+
+							
+							}
+							
+
+							//console.log(n-q);
+
+							
+							
+
+							  slide1 = obj.children[0];
+							  slide2 = obj.children[1];
+							  console.log(obj);
+							  console.log(slide1);
+							  console.log(slide2);
+											},1000);	
+							//}
+					  //  clearTimeout(timer1);
+
+					  }
+					}
+						
+			   };
+				
+				k = 0;
+				contArr = ["a","b"];
+				while(k<2){
+				     ctn_k = document.createElement("div");
+					 ctn_k.id = "container"+ q+""+contArr[k];
+					 if(k%2==0){
+					    ctn_k.style.zIndex = z-q;
+						console.log("z= "+z+" k= "+k);
+						console.log("*************************************************");
+						console.log(ctn_k);
+					 }else{
+					    ctn_k.style.zIndex = z-q -1;
+						console.log("z= "+z+" k= "+k);
+
+						console.log("*************************************************");
+						console.log(ctn_k);
+						 z = z-1;
+						 console.log(z);
+					 }
+					
+					 ctn_k.style.position ="absolute";
+					 ctn_k.style.display= "none";
+					 div.appendChild(ctn_k);
+				
+				
+				
+				
+					for(j =1;j<20;j++){
+						//if(j%2 ==0){
+							img = document.createElement("img");
+							console.log("jjj"+j);
+							console.log(result.files.length);
+							if((q+k)<n){
+							img.src = result.files[q+k].Url;
+							img.id ="img"+ (q+k) +" "+j;
+							img.style.visibility="hidden";
+							ctn_k.appendChild(img);
+							}
+						//}
+					}
+					k= k+1
+					
+				}
+				
+			
+				maincnt = document.getElementById('main_container');
+                maincnt.appendChild(div);
+		}
+
+
+			stackDisplay(n);
+			
+	},function(error){
+	console.log(error);
+   });
+});
+
+
+x  = 0;
+	y = 55;
+	
+function stackDisplay(n){
+  console.log(n);
+
+ for(p = 1; p<n; p++){
+  console.log(p);
+   x = 0;
+   k_ = 0;
+   console.log("flag " + p%2+" p "+ p);
+   if((p%2)>0){
+     while(k_<2){
+	 console.log("k_ ="+k_+" "+p);
+		for(j=1; j<20;j++){
+    
+			img = document.getElementById('img'+((p+k_)+" "+j));
+	        console.log("p "+p+" k_ "+k_+" j "+j);
+			//console.log(img);
+			img.style.position="absolute";
+			//	img.style.visibility="visible";
+				div_ = document.getElementById("container"+p);
+				console.log(div_);
+				console.log("container"+p);
+				div_.style.display="block";
+				div_.children[k_].style.display="block";
+			 img_ = div_.children[k_].children[j-1];
+			 console.log(img_);
+			 img_.style.position="absolute";
+			img_.style.visibility="visible";
+			console.log(div_);
+			console.log(i);
+			img_.style.marginLeft = ""+(0)+"px";
+			img_.style.padding="0px";
+			y = 55+i;
+			//  img.style.transform="rotateY("+(y)+"deg)";
+			if((i>-1)&(i<=4)){
+		
+				img_.style.clipPath="xywh("+x+"px 0 25% 100% round 0% 0%)";
+		
+			}
+			if((i>4)&(i<=10)){
+		
+				img_.style.clipPath="xywh("+x+"px 25% 100% round 0% 0%)";
+			}
+			if((i>10)&(i<=11)){
+		
+				img_.style.clipPath="xywh("+x+"px 0 25% 100% round 0% 0%)";
+			
+			}
+			if(i>11){
+		
+				img_.style.clipPath="xywh("+x+"px 0 25% 100% round 0% 0%)";
+		
+			}
+		
+			x = x+20;
+  
+  
+		}
+		k_ = k_ + 1;
+		x=0;
+	   }
+	}else{
+	
+		//div = document.getElementById("main_container");
+		//div.removeChild(div.children(p-1));
+		
+	}
+ }
+}
+
+
+function flipPage(){
+	console.log('flipPage');
+	}
+
+
+
+</script>
